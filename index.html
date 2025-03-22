@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ASCII image</title>
+        <link rel="stylesheet" href="./styles.css"/>
+    </head>
+    <body>
+        <div class="image-container">
+            Hello world!
+        </div>
+        
+        <script type="module">
+            import init, { greet } from './pkg/image2ascii_web.js';
+            init().then(() => {
+                greet('WebAssembly');
+            });
+        </script>
+    </body>
+</html>

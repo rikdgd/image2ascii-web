@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    background-color: rgb(31, 31, 32);
+}
+
+p {
+    color: #eaede8;
+    font-size: 2px;
+    font-family: "Monaco", monospace;
+    line-height: 120%;
+    white-space: pre;
+}
+
+.image-container {
+    width: 100vw;
+    height: 100vh;
+    color: #eaede8;
+}
