@@ -11,34 +11,41 @@
             Hello world!
         </div>
         <div class="form-container">
-            <label for="image">upload image:</label>
-            <input id="image-input" name="image" type="file"/>
+            <label for="image-input">upload image:</label>
+            <input id="image-input" type="file"/>
             <button id="convert-button">convert!</button>
         </div>
         
         <script type="module">
-            import init, { greet } from './pkg/image2ascii_web.js';
+            import init, { greet, convert_image } from './pkg/image2ascii_web.js';
             init().then(() => {
                 document.getElementById('convert-button').addEventListener('click', () => {
-                    console.log('Hello world!');
-                    greet('WebAssembly');
-                    
                     const imgInput = document.getElementById('image-input');
                     const imgFile = imgInput.files[0];
-                    console.log('image:\n', imgFile);
-                    
+
                     if (imgFile) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            const blobData = event.target.result;
-                            console.log(typeof blobData);
+                        const img = new Image();
+                        img.onload = () => {
+                            console.log('Successfully loaded image data, converting to ASCII...');
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                const arrayBuffer = event.target.result;
+                                const uint8Array = new Uint8Array(arrayBuffer);
+                                const htmlImage = convert_image(uint8Array, img.width, img.height);
+
+                                if (htmlImage) {
+                                    document.getElementById('image-container').innerHTML = htmlImage;
+                                }
+                            };
+
+                            reader.onerror = (error) => {
+                                console.error('Error reading file: ', error);
+                            };
+
+                            reader.readAsArrayBuffer(imgFile);
                         };
-                        
-                        reader.onerror = (error) => {
-                            console.error('Error reading file: ', error);
-                        };
-                        
-                        reader.readAsArrayBuffer(imgFile);
+
+                        img.src = URL.createObjectURL(imgFile);
                     }
                 });
             });
