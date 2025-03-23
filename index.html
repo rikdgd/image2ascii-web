@@ -3,18 +3,44 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ASCII image</title>
+        <title>image2ascii</title>
         <link rel="stylesheet" href="./styles.css"/>
     </head>
     <body>
-        <div class="image-container">
+        <div id="image-container">
             Hello world!
+        </div>
+        <div class="form-container">
+            <label for="image">upload image:</label>
+            <input id="image-input" name="image" type="file"/>
+            <button id="convert-button">convert!</button>
         </div>
         
         <script type="module">
             import init, { greet } from './pkg/image2ascii_web.js';
             init().then(() => {
-                greet('WebAssembly');
+                document.getElementById('convert-button').addEventListener('click', () => {
+                    console.log('Hello world!');
+                    greet('WebAssembly');
+                    
+                    const imgInput = document.getElementById('image-input');
+                    const imgFile = imgInput.files[0];
+                    console.log('image:\n', imgFile);
+                    
+                    if (imgFile) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const blobData = event.target.result;
+                            console.log(typeof blobData);
+                        };
+                        
+                        reader.onerror = (error) => {
+                            console.error('Error reading file: ', error);
+                        };
+                        
+                        reader.readAsArrayBuffer(imgFile);
+                    }
+                });
             });
         </script>
     </body>

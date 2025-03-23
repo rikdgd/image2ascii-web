@@ -13,3 +13,8 @@ extern "C" {
 pub fn greet(name: &str) {
     alert(&format!("Hello, {}!", name));
 }
+
+#[wasm_bindgen]
+pub fn convert_image(img_data: &str) -> String {
+    String::from(img_data)
+}

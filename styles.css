@@ -17,8 +17,8 @@ p {
     white-space: pre;
 }
 
-.image-container {
+#image-container {
     width: 100vw;
-    height: 100vh;
+    /* height: 100vh; */
     color: #eaede8;
 }
