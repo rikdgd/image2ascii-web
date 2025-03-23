@@ -1,8 +1,7 @@
 use crate::image_wrapper::{ImageWrapper};
 
 
-#[allow(unused)]
-const UNIX_CHAR_MAPPING: [char; 10] = [
+const CHAR_MAPPING: [char; 10] = [
     ' ',
     '.',
     ':',
@@ -13,20 +12,6 @@ const UNIX_CHAR_MAPPING: [char; 10] = [
     '#',
     '@',
     'W'
-];
-
-#[allow(unused)]
-const WINDOWS_CHAR_MAPPING: [char; 10] = [
-    ' ',
-    '.',
-    ':',
-    '*',
-    'x',
-    '+',
-    '#',
-    'H',
-    'W',
-    '@'
 ];
 
 
@@ -117,33 +102,17 @@ pub enum ImageScaleOptions {
 }
 
 fn pixel_to_char(pixel: &image::Rgb<u8>) -> char {
-    let char_mapping: [char; 10];
-    #[cfg(target_os="linux")]
-    {
-        char_mapping = UNIX_CHAR_MAPPING;
-    }
-    
-    #[cfg(target_os = "windows")]
-    {
-        char_mapping = WINDOWS_CHAR_MAPPING;
-    }
-    
-    #[cfg(target_os = "macos")]
-    {
-        char_mapping = UNIX_CHAR_MAPPING;
-    }
-
     match get_pixel_brightness(pixel) {
-        0..=25 => char_mapping[0],
-        26..=51 => char_mapping[1],
-        52..=77 => char_mapping[2],
-        78..=103 => char_mapping[3],
-        104..=129 => char_mapping[4],
-        130..=155 => char_mapping[5],
-        156..=181 => char_mapping[6],
-        182..=207 => char_mapping[7],
-        208..=233 => char_mapping[8],
-        _ => char_mapping[9],
+        0..=25 => CHAR_MAPPING[0],
+        26..=51 => CHAR_MAPPING[1],
+        52..=77 => CHAR_MAPPING[2],
+        78..=103 => CHAR_MAPPING[3],
+        104..=129 => CHAR_MAPPING[4],
+        130..=155 => CHAR_MAPPING[5],
+        156..=181 => CHAR_MAPPING[6],
+        182..=207 => CHAR_MAPPING[7],
+        208..=233 => CHAR_MAPPING[8],
+        _ => CHAR_MAPPING[9],
     }
 }
 
@@ -164,7 +133,7 @@ fn get_pixel_brightness(pixel: &image::Rgb<u8>) -> u32 {
 mod tests {
     use super::{
         pixel_to_char,
-        UNIX_CHAR_MAPPING,
+        CHAR_MAPPING,
         ImageToTextConverter,
         ImageScaleOptions,
     };
@@ -178,8 +147,8 @@ mod tests {
         let pixel_char_1 = pixel_to_char(&pixel_1);
         let pixel_char_6 = pixel_to_char(&pixel_6);
 
-        assert_eq!(pixel_char_1, UNIX_CHAR_MAPPING[0]);  // -> ' '
-        assert_eq!(pixel_char_6, UNIX_CHAR_MAPPING[9]);  // -> 'W'
+        assert_eq!(pixel_char_1, CHAR_MAPPING[0]);  // -> ' '
+        assert_eq!(pixel_char_6, CHAR_MAPPING[9]);  // -> 'W'
     }
 
 
@@ -200,19 +169,19 @@ mod tests {
         for row in text_image {
             for character in row {
                 if black_pixel_index == char_counter {
-                    assert_eq!(character, UNIX_CHAR_MAPPING[0]); // 0 -> ' '
+                    assert_eq!(character, CHAR_MAPPING[0]); // 0 -> ' '
     
                 } else if white_pixel_index == char_counter {
-                    assert_eq!(character, UNIX_CHAR_MAPPING[9]); // 7 -> '@'
+                    assert_eq!(character, CHAR_MAPPING[9]); // 7 -> '@'
     
                 } else if red_pixel_indexes.contains(&char_counter) {
-                    assert_eq!(character, UNIX_CHAR_MAPPING[2]); // 2 => ':'
+                    assert_eq!(character, CHAR_MAPPING[2]); // 2 => ':'
     
                 } else if green_pixel_indexes.contains(&char_counter) {
-                    assert_eq!(character, UNIX_CHAR_MAPPING[7]); // 5 -> 'X'
+                    assert_eq!(character, CHAR_MAPPING[7]); // 5 -> 'X'
     
                 } else if blue_pixel_indexes.contains(&char_counter) {
-                    assert_eq!(character, UNIX_CHAR_MAPPING[0]); // 0 -> ' '
+                    assert_eq!(character, CHAR_MAPPING[0]); // 0 -> ' '
     
                 } else {
                     panic!("char index was out of range!");

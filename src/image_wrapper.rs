@@ -81,8 +81,12 @@ impl ImageWrapper {
     }
     
     pub fn from_bytes(data: Vec<u8>, width: u32, height: u32) -> Option<Self> {
-        let img: ImageBuffer<image::Rgb<u8>, Vec<u8>> = ImageBuffer::from_raw(width, height, data)?;
+        let buffer: ImageBuffer<image::Rgb<u8>, Vec<u8>> = ImageBuffer::from_raw(width, height, data)?;
         
-        todo!()
+        Some(Self {
+            buffer,
+            width,
+            height,
+        })
     }
 }
