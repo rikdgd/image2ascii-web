@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::io::Cursor;
 use image::{ImageBuffer, ImageReader};
 use image::imageops::FilterType;
 
@@ -80,11 +81,18 @@ impl ImageWrapper {
         self.buffer = new_buffer;
     }
     
-    pub fn from_bytes(data: Vec<u8>, width: u32, height: u32) -> Option<Self> {
-        let buffer: ImageBuffer<image::Rgb<u8>, Vec<u8>> = ImageBuffer::from_raw(width, height, data)?;
+    pub fn from_bytes(data: Vec<u8>, width: u32, height: u32) -> std::io::Result<Self> {
+        let reader = ImageReader::new(Cursor::new(data)).with_guessed_format()?;
+        let image = reader.decode().map_err(|_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Failed to decode the image data"
+            )
+        })?;
         
-        Some(Self {
-            buffer,
+        let rgb_image = image.to_rgb8();
+        Ok(Self {
+            buffer: rgb_image,
             width,
             height,
         })

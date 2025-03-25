@@ -19,10 +19,17 @@ pub fn greet(name: &str) {
 
 #[wasm_bindgen]
 pub fn convert_image(img_data: Vec<u8>, width: u32, height: u32) -> Option<String> {
-    let img_wrapper = ImageWrapper::from_bytes(img_data, width, height)?;
-    let mut converter = ImageToTextConverter::from_image_wrapper(img_wrapper);
-    let text_image = converter.convert();
-    
-    let html_image = get_html_image_string(&text_image);
-    Some(html_image)
+    match ImageWrapper::from_bytes(img_data, width, height) {
+        Ok(wrapper) => {
+            let mut converter = ImageToTextConverter::from_image_wrapper(wrapper);
+            let text_image = converter.convert();
+
+            let html_image = get_html_image_string(&text_image);
+            Some(html_image)
+        },
+        Err(err) => {
+            alert(&format!("Failed to convert image to text:\n{}", err));
+            None
+        },
+    }
 }
