@@ -17,7 +17,7 @@
         </div>
         
         <script type="module">
-            import init, { greet, convert_image } from './pkg/image2ascii_web.js';
+            import init, { convert_image } from './pkg/image2ascii_web.js';
             init().then(() => {
                 document.getElementById('convert-button').addEventListener('click', () => {
                     const imgInput = document.getElementById('image-input');
@@ -26,7 +26,6 @@
                     if (imgFile) {
                         const img = new Image();
                         img.onload = () => {
-                            console.log('Successfully loaded image data, converting to ASCII...');
                             const reader = new FileReader();
                             reader.onload = (event) => {
                                 const arrayBuffer = event.target.result;
