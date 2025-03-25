@@ -18,8 +18,8 @@ pub fn greet(name: &str) {
 }
 
 #[wasm_bindgen]
-pub fn convert_image(img_data: Vec<u8>, width: u32, height: u32) -> Option<String> {
-    match ImageWrapper::from_bytes(img_data, width, height) {
+pub fn convert_image(img_data: Vec<u8>) -> Option<String> {
+    match ImageWrapper::from_bytes(img_data) {
         Ok(wrapper) => {
             let mut converter = ImageToTextConverter::from_image_wrapper(wrapper);
             let text_image = converter.convert();

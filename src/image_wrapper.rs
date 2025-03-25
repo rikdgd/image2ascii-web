@@ -1,6 +1,6 @@
 use std::error::Error;
 use std::io::Cursor;
-use image::{ImageBuffer, ImageReader};
+use image::{GenericImageView, ImageBuffer, ImageReader};
 use image::imageops::FilterType;
 
 #[allow(unused)]
@@ -81,7 +81,15 @@ impl ImageWrapper {
         self.buffer = new_buffer;
     }
     
-    pub fn from_bytes(data: Vec<u8>, width: u32, height: u32) -> std::io::Result<Self> {
+    /// Tries to create an **ImageWrapper** from raw bytes. This constructor will determine
+    /// the file type, width, and height on its own.
+    /// 
+    /// ## parameters:
+    /// * `data` - The vector of bytes that contains some image data.
+    /// 
+    /// ## Returns:
+    /// An `ImageWrapper` that holds an `image::RgbImage` in its buffer.
+    pub fn from_bytes(data: Vec<u8>) -> std::io::Result<Self> {
         let reader = ImageReader::new(Cursor::new(data)).with_guessed_format()?;
         let image = reader.decode().map_err(|_| {
             std::io::Error::new(
@@ -93,8 +101,8 @@ impl ImageWrapper {
         let rgb_image = image.to_rgb8();
         Ok(Self {
             buffer: rgb_image,
-            width,
-            height,
+            width: image.width(),
+            height: image.height(),
         })
     }
 }
