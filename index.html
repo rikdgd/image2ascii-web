@@ -7,13 +7,17 @@
         <link rel="stylesheet" href="./styles.css"/>
     </head>
     <body>
-        <div id="image-container">
-            Hello world!
-        </div>
-        <div class="form-container">
-            <label for="image-input">upload image:</label>
-            <input id="image-input" type="file"/>
-            <button id="convert-button">convert!</button>
+        <div class="container">
+            <div id="image-container"></div>
+
+            <div id="form-container">
+                <label for="image-input">upload image:</label>
+                <input id="image-input" type="file"/>
+                <button id="convert-button">convert!</button>
+            </div>
+            <div id="menu-toggle">
+                hi
+            </div>
         </div>
         
         <script type="module">
@@ -34,6 +38,7 @@
 
                                 if (htmlImage) {
                                     document.getElementById('image-container').innerHTML = htmlImage;
+                                    toggleFormVisibility();
                                 }
                             };
 
@@ -48,6 +53,12 @@
                     }
                 });
             });
+
+            document.getElementById('menu-toggle').classList.toggle('hidden');
+
+            function toggleFormVisibility() {
+                document.getElementById('form-container').classList.toggle('hidden');
+            }
         </script>
     </body>
 </html>

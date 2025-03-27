@@ -6,7 +6,7 @@
 
 html, body {
     height: 100%;
-    background-color: rgb(31, 31, 32);
+    background-color: rgb(40, 40, 42);
 }
 
 p {
@@ -17,8 +17,49 @@ p {
     white-space: pre;
 }
 
+button {
+    background-color: #402580;
+    color: #eaede8;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+}
+
+button:hover {
+    background-color: #4a308c;
+}
+
 #image-container {
     width: 100vw;
-    /* height: 100vh; */
+    height: 90vh;
     color: #eaede8;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 99vh;
+    right: 50vw;
+    background-color: #eaede8;
+}
+
+#form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem;
+    color: #eaede8;
+
+    width: 90%;
 }
