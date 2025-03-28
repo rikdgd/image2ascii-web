@@ -17,12 +17,20 @@ p {
     white-space: pre;
 }
 
+label {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Monaco", monospace;
+    margin-bottom: 0.4rem;
+}
+
 #convert-button {
     background-color: #402580;
     color: #eaede8;
     border: none;
     padding: 0.6rem;
     border-radius: 0.5rem;
+    font-weight: bold;
 }
 
 #convert-button:hover {
@@ -48,17 +56,22 @@ p {
 #menu-toggle {
     position: fixed;
     top: 1vh;
-    background-color: #eaede8;
-    color: rgb(40, 40, 42);
-    border: none;
-    border-radius: 10rem;
+    background-color: transparent;
+    color: #eaede8;
+    border-style: solid;
+    border-color: #eaede8;
+    border-radius: 0.7rem;
 
     padding: 0.4rem;
     font-size: 12px;
+
+    font-weight: bold;
 }
 
 #menu-toggle:hover {
-    background-color: #afafaf;
+    background-color: #eaede8;
+    color: rgb(40, 40, 42);
+    font-weight: bold;
 }
 
 #clear-btn {
@@ -68,11 +81,14 @@ p {
     border-color: #f14343;
     padding: 0.4rem;
     border-radius: 0.6rem;
+
+    font-weight: bold;
 }
 
 #clear-btn:hover {
     background-color: #f14343;
     color: rgb(40, 40, 42);
+    font-weight: bold;
 }
 
 #form-container {
