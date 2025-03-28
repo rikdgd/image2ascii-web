@@ -15,9 +15,9 @@
                 <input id="image-input" type="file"/>
                 <button id="convert-button">convert!</button>
             </div>
-            <div id="menu-toggle">
-                hi
-            </div>
+            <button id="menu-toggle">
+                menu
+            </button>
         </div>
         
         <script type="module">
@@ -54,11 +54,14 @@
                 });
             });
 
-            document.getElementById('menu-toggle').classList.toggle('hidden');
 
             function toggleFormVisibility() {
                 document.getElementById('form-container').classList.toggle('hidden');
             }
+
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                toggleFormVisibility();
+            });
         </script>
     </body>
 </html>

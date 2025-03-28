@@ -17,7 +17,7 @@ p {
     white-space: pre;
 }
 
-button {
+#convert-button {
     background-color: #402580;
     color: #eaede8;
     border: none;
@@ -45,21 +45,34 @@ button:hover {
     visibility: hidden;
 }
 
-.menu-toggle {
+#menu-toggle {
     position: fixed;
-    top: 99vh;
-    right: 50vw;
+    top: 1vh;
     background-color: #eaede8;
+    color: rgb(40, 40, 42);
+    border: none;
+    border-radius: 10rem;
+
+    padding: 0.6rem;
+    font-size: 12px;
+}
+
+#menu-toggle:hover {
+    background-color: #afafaf;
 }
 
 #form-container {
+    position: fixed;
+    top: 80vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    margin: 2rem;
     color: #eaede8;
 
-    width: 90%;
+    background-color: rgb(40, 40, 42);
+    padding: 1.2rem;
+    border-radius: 1rem;
 }
