@@ -134,10 +134,7 @@ mod tests {
     use super::{
         pixel_to_char,
         CHAR_MAPPING,
-        ImageToTextConverter,
-        ImageScaleOptions,
     };
-    use crate::image_wrapper::{ImageWrapper, Image};
 
     #[test]
     fn pixel_to_char_test() {

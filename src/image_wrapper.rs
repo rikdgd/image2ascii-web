@@ -1,6 +1,6 @@
 use std::error::Error;
 use std::io::Cursor;
-use image::{GenericImageView, ImageBuffer, ImageReader};
+use image::{ImageBuffer, ImageReader};
 use image::imageops::FilterType;
 
 #[allow(unused)]
