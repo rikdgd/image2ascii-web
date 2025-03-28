@@ -14,6 +14,8 @@
                 <label for="image-input">upload image:</label>
                 <input id="image-input" type="file"/>
                 <button id="convert-button">convert!</button>
+
+                <button id="clear-btn">clear</button>
             </div>
             <button id="menu-toggle">
                 menu
@@ -61,6 +63,10 @@
 
             document.getElementById('menu-toggle').addEventListener('click', () => {
                 toggleFormVisibility();
+            });
+
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                document.getElementById('image-container').innerHTML = '';
             });
         </script>
     </body>
