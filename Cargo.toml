@@ -5,6 +5,7 @@ edition = "2024"
 authors = ["Rik de Goede <rik.dgd@gmail.com>"]
 description = "A tool to convert images to ASCII text in the browser using WebAssembly."
 license = "MIT"
+repository = "https://github.com/rikdgd/image2ascii-web"
 
 [lib]
 crate-type = ["cdylib"]
