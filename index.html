@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>image2ascii</title>
+        <link rel="stylesheet" href="./styles.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div id="image-container"></div>
+
+            <div id="form-container">
+                <label for="image-input">Upload an image to convert:</label>
+                <input id="image-input" type="file"/>
+                <button id="convert-button">convert!</button>
+
+                <button id="clear-btn">clear</button>
+            </div>
+            <button id="menu-toggle">
+                menu
+            </button>
+        </div>
+        
+        <script type="module">
+            import init, { convert_image } from './pkg/image2ascii_web.js';
+            init().then(() => {
+                document.getElementById('convert-button').addEventListener('click', () => {
+                    const imgInput = document.getElementById('image-input');
+                    const imgFile = imgInput.files[0];
+
+                    if (imgFile) {
+                        const img = new Image();
+                        img.onload = () => {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                const arrayBuffer = event.target.result;
+                                const uint8Array = new Uint8Array(arrayBuffer);
+                                const htmlImage = convert_image(uint8Array, img.width, img.height);
+
+                                if (htmlImage) {
+                                    document.getElementById('image-container').innerHTML = htmlImage;
+                                    toggleFormVisibility();
+                                }
+                            };
+
+                            reader.onerror = (error) => {
+                                console.error('Error reading file: ', error);
+                            };
+
+                            reader.readAsArrayBuffer(imgFile);
+                        };
+
+                        img.src = URL.createObjectURL(imgFile);
+                    }
+                });
+            });
+
+
+            function toggleFormVisibility() {
+                document.getElementById('form-container').classList.toggle('hidden');
+            }
+
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                toggleFormVisibility();
+            });
+
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                document.getElementById('image-container').innerHTML = '';
+            });
+        </script>
+    </body>
+</html>
