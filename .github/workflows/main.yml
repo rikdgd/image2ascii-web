@@ -24,12 +24,12 @@ jobs:
       - name: Build with wasm-pack
         run: wasm-pack build --release --target web
 
-      - name: Prepare deployment folder
+      - name: Prepare deployment directory
         run: |
           mkdir -p dist
           cp index.html dist/   # Copy HTML & CSS
           cp styles.css dist/
-          cp -r pkg/* dist/      # Copy compiled WASM & JS
+          cp -r pkg/ dist/      # Copy compiled WASM & JS
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
