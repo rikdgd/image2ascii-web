@@ -26,10 +26,10 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir -p dist
+          mkdir -p dist/pkg
           cp index.html dist/   # Copy HTML & CSS
           cp styles.css dist/
-          cp -r pkg/ dist/      # Copy compiled WASM & JS
+          cp -r pkg/* dist/pkg/      # Copy compiled WASM & JS
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
