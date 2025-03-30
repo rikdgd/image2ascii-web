@@ -24,6 +24,11 @@ label {
     margin-bottom: 0.4rem;
 }
 
+#font-label {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
 #convert-button {
     background-color: #402580;
     color: #eaede8;
