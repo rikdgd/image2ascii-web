@@ -6,6 +6,9 @@ brightness level. It does not serve much of a purpose, but it was fun to make.
 The frontend is build in simple `html`/`css`, and the image conversion logic is implemented in `Rust` and compiled to 
 `WebAssembly`.
 
+You can try it yourself over here: <br/>
+https://rikdgd.github.io/image2ascii-web/
+
 ![example-image](example-image.png)
 
 ---

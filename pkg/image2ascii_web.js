@@ -138,7 +138,7 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_alert_aee0b8f5e4e292f0 = function(arg0, arg1) {
+    imports.wbg.__wbg_alert_ec2551630731dd64 = function(arg0, arg1) {
         alert(getStringFromWasm0(arg0, arg1));
     };
     imports.wbg.__wbindgen_init_externref_table = function() {
