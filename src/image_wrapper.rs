@@ -12,6 +12,7 @@ pub trait Image {
     fn dimensions(&self) -> (u32, u32);
 }
 
+#[derive(Debug, Clone)]
 pub struct ImageWrapper {
     pub buffer: ImageBuffer<image::Rgb<u8>, Vec<u8>>,
     pub width: u32,

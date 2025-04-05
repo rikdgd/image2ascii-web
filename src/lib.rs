@@ -1,11 +1,13 @@
 mod html_generation;
 mod image_wrapper;
 mod image_converter;
+mod character_mapping;
 
-use image_converter::{ImageConverter, ImageToTextConverter};
+use image_converter::ImageToTextConverter;
 use image_wrapper::ImageWrapper;
 use html_generation::get_html_image_string;
 use wasm_bindgen::prelude::*;
+use character_mapping::UserOs;
 
 #[wasm_bindgen]
 extern "C" {
@@ -18,10 +20,13 @@ pub fn greet(name: &str) {
 }
 
 #[wasm_bindgen]
-pub fn convert_image(img_data: Vec<u8>) -> Option<String> {
+pub fn convert_image(img_data: Vec<u8>, user_os: &str) -> Option<String> {
     match ImageWrapper::from_bytes(img_data) {
-        Ok(wrapper) => {
-            let mut converter = ImageToTextConverter::from_image_wrapper(wrapper);
+        Ok(image_wrapper) => {
+            let converter = ImageToTextConverter {
+                image_wrapper,
+                user_os: UserOs::from_str(user_os),
+            };
             let text_image = converter.convert();
 
             let html_image = get_html_image_string(&text_image);
