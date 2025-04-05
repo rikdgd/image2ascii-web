@@ -1,3 +1,5 @@
+use std::ffi::OsString;
+
 pub const UNIX_CHAR_MAPPING: [char; 10] = [
     ' ',
     '.',
