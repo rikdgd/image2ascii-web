@@ -5,7 +5,7 @@
     "Rik de Goede <rik.dgd@gmail.com>"
   ],
   "description": "A tool to convert images to ASCII text in the browser using WebAssembly.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",

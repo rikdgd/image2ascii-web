@@ -1,14 +1,14 @@
 /* tslint:disable */
 /* eslint-disable */
 export function greet(name: string): void;
-export function convert_image(img_data: Uint8Array): string | undefined;
+export function convert_image(img_data: Uint8Array, user_os: string): string | undefined;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly greet: (a: number, b: number) => void;
-  readonly convert_image: (a: number, b: number) => [number, number];
+  readonly convert_image: (a: number, b: number, c: number, d: number) => [number, number];
   readonly __wbindgen_export_0: WebAssembly.Table;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

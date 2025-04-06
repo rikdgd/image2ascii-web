@@ -90,18 +90,21 @@ function passArray8ToWasm0(arg, malloc) {
 }
 /**
  * @param {Uint8Array} img_data
+ * @param {string} user_os
  * @returns {string | undefined}
  */
-export function convert_image(img_data) {
+export function convert_image(img_data, user_os) {
     const ptr0 = passArray8ToWasm0(img_data, wasm.__wbindgen_malloc);
     const len0 = WASM_VECTOR_LEN;
-    const ret = wasm.convert_image(ptr0, len0);
-    let v2;
+    const ptr1 = passStringToWasm0(user_os, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len1 = WASM_VECTOR_LEN;
+    const ret = wasm.convert_image(ptr0, len0, ptr1, len1);
+    let v3;
     if (ret[0] !== 0) {
-        v2 = getStringFromWasm0(ret[0], ret[1]).slice();
+        v3 = getStringFromWasm0(ret[0], ret[1]).slice();
         wasm.__wbindgen_free(ret[0], ret[1] * 1, 1);
     }
-    return v2;
+    return v3;
 }
 
 async function __wbg_load(module, imports) {
@@ -138,7 +141,7 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_alert_ec2551630731dd64 = function(arg0, arg1) {
+    imports.wbg.__wbg_alert_0dcafc75ba62c3b3 = function(arg0, arg1) {
         alert(getStringFromWasm0(arg0, arg1));
     };
     imports.wbg.__wbindgen_init_externref_table = function() {
