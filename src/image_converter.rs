@@ -1,40 +1,15 @@
 use crate::image_wrapper::{ImageWrapper};
+use crate::character_mapping::{UserOs, get_char_mapping};
 
-
-const CHAR_MAPPING: [char; 10] = [
-    ' ',
-    '.',
-    ':',
-    '*',
-    '+',
-    'x',
-    'H',
-    '#',
-    '@',
-    'W'
-];
-
-
-pub trait ImageConverter {
-    type ConvertsTo;
-    fn convert(&mut self) -> Self::ConvertsTo;
-}
 
 pub struct ImageToTextConverter {
     pub image_wrapper: ImageWrapper,
-}
-
-impl ImageConverter for ImageToTextConverter {
-    type ConvertsTo = String;
-
-    fn convert(&mut self) -> Self::ConvertsTo {
-        Self::convert_to_text(&mut self.image_wrapper, ImageScaleOptions::default())
-    }
+    pub user_os: UserOs,
 }
 
 impl ImageToTextConverter {
-    pub fn from_image_wrapper(image_wrapper: ImageWrapper) -> Self {
-        Self { image_wrapper }
+    pub fn convert(mut self) -> String {
+        self.convert_to_text(ImageScaleOptions::default())
     }
     
     #[allow(unused)]
@@ -52,7 +27,7 @@ impl ImageToTextConverter {
         let mut row_counter: u32 = 0;
 
         for pixel in pixels {
-            let pixel_char = pixel_to_char(pixel);
+            let pixel_char = pixel_to_char(pixel, UserOs::Unix);
             text_image_row.push(pixel_char);
 
             if row_counter == image_wrapper.width - 1 {
@@ -67,21 +42,27 @@ impl ImageToTextConverter {
         text_image
     }
     
-    fn convert_to_text(image_wrapper: &mut ImageWrapper, scale_options: ImageScaleOptions) -> String {
+    /// Converts image data to text that resembles the image in brightness values, where the rows are
+    /// seperated by `\n`.
+    /// 
+    /// ## parameters:
+    /// * `scale_options` - The image wrapper that holds the image that should be converted to text.
+    /// 
+    fn convert_to_text(&mut self, scale_options: ImageScaleOptions) -> String {
         if let ImageScaleOptions::HalfHeight = scale_options {
-            image_wrapper.prepare_scale();
+            self.image_wrapper.prepare_scale();
         }
 
-        let pixels = image_wrapper.buffer.pixels();
+        let pixels = self.image_wrapper.buffer.pixels();
         
         let mut text_image = String::new();
         let mut row_counter: u32 = 0;
         
         for pixel in pixels {
-            let pixel_char = pixel_to_char(pixel);
+            let pixel_char = pixel_to_char(pixel, self.user_os);
             text_image.push(pixel_char);
             
-            if row_counter == image_wrapper.width - 1 {
+            if row_counter == self.image_wrapper.width - 1 {
                 row_counter = 0;
                 text_image.push('\n');
             } else {
@@ -101,19 +82,13 @@ pub enum ImageScaleOptions {
     HalfHeight,
 }
 
-fn pixel_to_char(pixel: &image::Rgb<u8>) -> char {
-    match get_pixel_brightness(pixel) {
-        0..=25 => CHAR_MAPPING[0],
-        26..=51 => CHAR_MAPPING[1],
-        52..=77 => CHAR_MAPPING[2],
-        78..=103 => CHAR_MAPPING[3],
-        104..=129 => CHAR_MAPPING[4],
-        130..=155 => CHAR_MAPPING[5],
-        156..=181 => CHAR_MAPPING[6],
-        182..=207 => CHAR_MAPPING[7],
-        208..=233 => CHAR_MAPPING[8],
-        _ => CHAR_MAPPING[9],
+fn pixel_to_char(pixel: &image::Rgb<u8>, user_os: UserOs) -> char {
+    let mut brightness = get_pixel_brightness(pixel);
+    if brightness > u8::MAX as u32 {
+        brightness = 255;
     }
+    
+    get_char_mapping(brightness as u8, user_os)
 }
 
 
@@ -131,20 +106,19 @@ fn get_pixel_brightness(pixel: &image::Rgb<u8>) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use super::{
-        pixel_to_char,
-        CHAR_MAPPING,
-    };
+    use super::pixel_to_char;
+    use crate::character_mapping::{UserOs, UNIX_CHAR_MAPPING};
 
     #[test]
     fn pixel_to_char_test() {
-        let pixel_1 = image::Rgb([0, 0, 0]);
-        let pixel_6 = image::Rgb([255, 255, 255]);
+        let user_os = UserOs::Unix;
+        let black_pixel = image::Rgb([0, 0, 0]);
+        let white_pixel = image::Rgb([255, 255, 255]);
 
-        let pixel_char_1 = pixel_to_char(&pixel_1);
-        let pixel_char_6 = pixel_to_char(&pixel_6);
+        let pixel_char_black = pixel_to_char(&black_pixel, user_os);
+        let pixel_char_white = pixel_to_char(&white_pixel, user_os);
 
-        assert_eq!(pixel_char_1, CHAR_MAPPING[0]);  // -> ' '
-        assert_eq!(pixel_char_6, CHAR_MAPPING[9]);  // -> 'W'
+        assert_eq!(pixel_char_black, UNIX_CHAR_MAPPING[0]);
+        assert_eq!(pixel_char_white, UNIX_CHAR_MAPPING[9]);
     }
 }

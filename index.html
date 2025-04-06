@@ -36,7 +36,7 @@
                             reader.onload = (event) => {
                                 const arrayBuffer = event.target.result;
                                 const uint8Array = new Uint8Array(arrayBuffer);
-                                const htmlImage = convert_image(uint8Array, img.width, img.height);
+                                const htmlImage = convert_image(uint8Array, getUserOs());
 
                                 if (htmlImage) {
                                     document.getElementById('image-container').innerHTML = htmlImage;
@@ -56,6 +56,16 @@
                 });
             });
 
+
+            function getUserOs() {
+                const platform = window.navigator.platform;
+
+                if (/Win/i.test(platform)) {
+                    return 'windows';
+                } else {
+                    return 'unix';
+                }
+            }
 
             function toggleFormVisibility() {
                 document.getElementById('form-container').classList.toggle('hidden');
